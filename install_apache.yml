@@ -1,0 +1,26 @@
+---
+- name: Automate Apache Installation
+  hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Apache2
+      apt:
+        name: apache2
+        state: present
+
+    - name: Start Apache service
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Check Apache website
+      uri:
+        url: http://localhost
+        status_code: 200
